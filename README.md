@@ -7,7 +7,15 @@ Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) & Malwina 
 
 ## An introduction to RNA-Seq ##
 
+What is RNA sequencing? From Sequencer to gene counts
+ - Lecture 1:
+ - Practical 1:
 
+From Gene counts to differential expression analysis
+ - Lecture 2:
+ - Practical 2:
+
+Practical 3:
 ### Objective for the practical ###
 
 - To learn about how to process, analyse and interpret RNA-Seq data
