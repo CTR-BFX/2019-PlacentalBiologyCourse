@@ -1,6 +1,6 @@
 # Centre for Trophoblast Research: Placental Bioinformatics Course
 
-<sup>Version 0.3: 20180705</sup>
+<sup>Version 0.1: 20190619</sup>
 
 Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) & Malwina Prater (mn367@cam.ac.uk)
 
