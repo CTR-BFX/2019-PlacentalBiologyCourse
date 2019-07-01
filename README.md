@@ -19,7 +19,6 @@ From Gene counts to differential expression analysis
 
 - To learn about how to process, analyse and interpret RNA-Seq data
 
-
 ### Learning goals ###
 
 - Experience using the Linux operating system (Using Ubuntu via R-Studio)
