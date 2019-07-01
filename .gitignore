@@ -1,0 +1,8 @@
+
+
+*.idx
+*.fastq.gz
+*.fq.gz
+
+*.bam
+*.bai
