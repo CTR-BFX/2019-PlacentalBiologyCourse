@@ -1,0 +1,519 @@
+
+--------------------------------------------------------------------------------
+Module:			fastqc
+Run File:		SRR1811709_1.fastq.gz_fastq_kallisto.run
+Job ID:			cf_fastq_kallisto_1466004474_fastqc_272
+Previous Job ID:	start_000
+Date & Time:		16:34, 15-06-2016
+--------------------------------------------------------------------------------
+
+---------- FastQC version information ----------
+FastQC v0.11.5
+
+------- End of FastQC version information ------
+
+###CFCMD fastqc -q  SRR1811709_1.fastq.gz
+
+###CF FastQC successfully ran, took 4 minutes, 57 seconds
+
+###CFCMD fastqc -q  SRR1811709_2.fastq.gz
+
+###CF FastQC successfully ran, took 5 minutes, 4 seconds
+
+
+
+
+--------------------------------------------------------------------------------
+Module:			trim_galore
+Run File:		SRR1811709_1.fastq.gz_fastq_kallisto.run
+Job ID:			cf_fastq_kallisto_1466004474_trim_galore_957
+Previous Job ID:	start_000
+Date & Time:		16:35, 15-06-2016
+--------------------------------------------------------------------------------
+
+---------- Cutadapt version information ----------
+1.8.1
+
+------- End of Cutadapt version information ------
+---------- Trim Galore! version information ----------
+
+                          Quality-/Adapter-/RRBS-Trimming
+                               (powered by Cutadapt)
+                                  version 0.4.1
+
+                             Last update: 20 07 2015
+
+
+------- End of Trim Galore! version information ------
+
+###CFCMD trim_galore --paired --gzip --phred33       --fastqc SRR1811709_1.fastq.gz SRR1811709_2.fastq.gz
+
+Path to Cutadapt set as: 'cutadapt' (default)
+1.8.1
+Cutadapt seems to be working fine (tested command 'cutadapt --version')
+
+
+AUTO-DETECTING ADAPTER TYPE
+===========================
+Attempting to auto-detect adapter type from the first 1 million sequences of the first file (>> SRR1811709_1.fastq.gz <<)
+
+Found perfect matches for the following adapter sequences:
+Adapter type	Count	Sequence	Sequences analysed	Percentage
+Illumina	395	AGATCGGAAGAGC	1000000	0.04
+Nextera	4	CTGTCTCTTATA	1000000	0.00
+smallRNA	0	TGGAATTCTCGG	1000000	0.00
+Using Illumina adapter for trimming (count: 395). Second best hit was Nextera (count: 4)
+
+Writing report to 'SRR1811709_1.fastq.gz_trimming_report.txt'
+
+SUMMARISING RUN PARAMETERS
+==========================
+Input filename: SRR1811709_1.fastq.gz
+Trimming mode: paired-end
+Trim Galore version: 0.4.1
+Cutadapt version: 1.8.1
+Quality Phred score cutoff: 20
+Quality encoding type selected: ASCII+33
+Adapter sequence: 'AGATCGGAAGAGC' (Illumina TruSeq, Sanger iPCR; auto-detected)
+Maximum trimming error rate: 0.1 (default)
+Minimum required adapter overlap (stringency): 1 bp
+Minimum required sequence length for both reads before a sequence pair gets removed: 20 bp
+Running FastQC on the data once trimming has completed
+Output file(s) will be GZIP compressed
+
+Writing final adapter and quality trimmed output to SRR1811709_1_trimmed.fq.gz
+
+
+  >>> Now performing quality (cutoff 20) and adapter trimming in a single pass for the adapter sequence: 'AGATCGGAAGAGC' from file SRR1811709_1.fastq.gz <<< 
+10000000 sequences processed
+20000000 sequences processed
+30000000 sequences processed
+This is cutadapt 1.8.1 with Python 2.7.5
+Command line parameters: -f fastq -e 0.1 -q 20 -O 1 -a AGATCGGAAGAGC SRR1811709_1.fastq.gz
+Trimming 1 adapter with at most 10.0% errors in single-end mode ...
+Finished in 522.01 s (17 us/read; 3.46 M reads/minute).
+
+=== Summary ===
+
+Total reads processed:              30,099,697
+Reads with adapters:                10,085,666 (33.5%)
+Reads written (passing filters):    30,099,697 (100.0%)
+
+Total basepairs processed: 3,040,069,397 bp
+Quality-trimmed:             150,651,338 bp (5.0%)
+Total written (filtered):  2,871,143,892 bp (94.4%)
+
+=== Adapter 1 ===
+
+Sequence: AGATCGGAAGAGC; Type: regular 3'; Length: 13; Trimmed: 10085666 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-13 bp: 1
+
+Bases preceding removed adapters:
+  A: 30.5%
+  C: 32.0%
+  G: 20.5%
+  T: 16.5%
+  none/other: 0.4%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+1	6813277	7524924.2	0	6813277
+2	2313352	1881231.1	0	2313352
+3	650607	470307.8	0	650607
+4	131097	117576.9	0	131097
+5	38153	29394.2	0	38153
+6	13347	7348.6	0	13347
+7	9948	1837.1	0	9948
+8	9041	459.3	0	9041
+9	7966	114.8	0	7432 534
+10	7469	28.7	1	6608 861
+11	5768	7.2	1	5269 499
+12	5335	1.8	1	5088 247
+13	4010	0.4	1	3864 146
+14	3919	0.4	1	3773 146
+15	3341	0.4	1	3238 103
+16	2967	0.4	1	2841 126
+17	2731	0.4	1	2576 155
+18	2715	0.4	1	2585 130
+19	1768	0.4	1	1699 69
+20	1810	0.4	1	1733 77
+21	1576	0.4	1	1502 74
+22	1460	0.4	1	1387 73
+23	1312	0.4	1	1227 85
+24	1187	0.4	1	1090 97
+25	1150	0.4	1	1054 96
+26	848	0.4	1	789 59
+27	955	0.4	1	855 100
+28	977	0.4	1	855 122
+29	841	0.4	1	738 103
+30	875	0.4	1	759 116
+31	503	0.4	1	443 60
+32	623	0.4	1	552 71
+33	550	0.4	1	458 92
+34	588	0.4	1	483 105
+35	560	0.4	1	463 97
+36	598	0.4	1	506 92
+37	412	0.4	1	327 85
+38	581	0.4	1	432 149
+39	588	0.4	1	434 154
+40	777	0.4	1	484 293
+41	1023	0.4	1	783 240
+42	526	0.4	1	413 113
+43	282	0.4	1	216 66
+44	380	0.4	1	181 199
+45	561	0.4	1	289 272
+46	505	0.4	1	367 138
+47	359	0.4	1	244 115
+48	314	0.4	1	194 120
+49	321	0.4	1	235 86
+50	312	0.4	1	218 94
+51	407	0.4	1	259 148
+52	516	0.4	1	311 205
+53	467	0.4	1	378 89
+54	240	0.4	1	162 78
+55	214	0.4	1	149 65
+56	359	0.4	1	195 164
+57	356	0.4	1	246 110
+58	389	0.4	1	209 180
+59	402	0.4	1	269 133
+60	290	0.4	1	173 117
+61	350	0.4	1	225 125
+62	643	0.4	1	254 389
+63	1036	0.4	1	428 608
+64	836	0.4	1	517 319
+65	520	0.4	1	299 221
+66	494	0.4	1	233 261
+67	722	0.4	1	322 400
+68	1237	0.4	1	405 832
+69	3854	0.4	1	642 3212
+70	4829	0.4	1	2049 2780
+71	4439	0.4	1	2086 2353
+72	3118	0.4	1	1471 1647
+73	1268	0.4	1	709 559
+74	668	0.4	1	347 321
+75	238	0.4	1	134 104
+76	172	0.4	1	81 91
+77	167	0.4	1	83 84
+78	136	0.4	1	73 63
+79	118	0.4	1	60 58
+80	147	0.4	1	75 72
+81	168	0.4	1	96 72
+82	104	0.4	1	64 40
+83	82	0.4	1	48 34
+84	108	0.4	1	70 38
+85	85	0.4	1	49 36
+86	100	0.4	1	63 37
+87	70	0.4	1	36 34
+88	89	0.4	1	39 50
+89	88	0.4	1	59 29
+90	75	0.4	1	34 41
+91	70	0.4	1	38 32
+92	70	0.4	1	26 44
+93	76	0.4	1	11 65
+94	80	0.4	1	27 53
+95	87	0.4	1	23 64
+96	143	0.4	1	22 121
+97	145	0.4	1	29 116
+98	298	0.4	1	62 236
+99	439	0.4	1	87 352
+100	851	0.4	1	222 629
+101	3641	0.4	1	823 2818
+
+
+RUN STATISTICS FOR INPUT FILE: SRR1811709_1.fastq.gz
+=============================================
+30099697 sequences processed in total
+The length threshold of paired-end sequences gets evaluated later on (in the validation step)
+
+Writing report to 'SRR1811709_2.fastq.gz_trimming_report.txt'
+
+SUMMARISING RUN PARAMETERS
+==========================
+Input filename: SRR1811709_2.fastq.gz
+Trimming mode: paired-end
+Trim Galore version: 0.4.1
+Cutadapt version: 1.8.1
+Quality Phred score cutoff: 20
+Quality encoding type selected: ASCII+33
+Adapter sequence: 'AGATCGGAAGAGC' (Illumina TruSeq, Sanger iPCR; auto-detected)
+Maximum trimming error rate: 0.1 (default)
+Minimum required adapter overlap (stringency): 1 bp
+Minimum required sequence length for both reads before a sequence pair gets removed: 20 bp
+Running FastQC on the data once trimming has completed
+Output file(s) will be GZIP compressed
+
+Writing final adapter and quality trimmed output to SRR1811709_2_trimmed.fq.gz
+
+
+  >>> Now performing quality (cutoff 20) and adapter trimming in a single pass for the adapter sequence: 'AGATCGGAAGAGC' from file SRR1811709_2.fastq.gz <<< 
+10000000 sequences processed
+20000000 sequences processed
+30000000 sequences processed
+This is cutadapt 1.8.1 with Python 2.7.5
+Command line parameters: -f fastq -e 0.1 -q 20 -O 1 -a AGATCGGAAGAGC SRR1811709_2.fastq.gz
+Trimming 1 adapter with at most 10.0% errors in single-end mode ...
+Finished in 523.14 s (17 us/read; 3.45 M reads/minute).
+
+=== Summary ===
+
+Total reads processed:              30,099,697
+Reads with adapters:                 9,934,223 (33.0%)
+Reads written (passing filters):    30,099,697 (100.0%)
+
+Total basepairs processed: 3,040,069,397 bp
+Quality-trimmed:             217,317,503 bp (7.1%)
+Total written (filtered):  2,806,311,646 bp (92.3%)
+
+=== Adapter 1 ===
+
+Sequence: AGATCGGAAGAGC; Type: regular 3'; Length: 13; Trimmed: 9934223 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-13 bp: 1
+
+Bases preceding removed adapters:
+  A: 31.4%
+  C: 32.0%
+  G: 20.1%
+  T: 16.3%
+  none/other: 0.2%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+1	6743568	7524924.2	0	6743568
+2	2276949	1881231.1	0	2276949
+3	634384	470307.8	0	634384
+4	124488	117576.9	0	124488
+5	36586	29394.2	0	36586
+6	13229	7348.6	0	13229
+7	9848	1837.1	0	9848
+8	8715	459.3	0	8715
+9	7687	114.8	0	7128 559
+10	7474	28.7	1	6571 903
+11	5485	7.2	1	4907 578
+12	5811	1.8	1	5471 340
+13	3843	0.4	1	3665 178
+14	5423	0.4	1	5188 235
+15	2615	0.4	1	2524 91
+16	2556	0.4	1	2438 118
+17	3855	0.4	1	3662 193
+18	1621	0.4	1	1537 84
+19	2582	0.4	1	2471 111
+20	1631	0.4	1	1561 70
+21	868	0.4	1	830 38
+22	1373	0.4	1	1316 57
+23	1306	0.4	1	1212 94
+24	2177	0.4	1	2024 153
+25	1036	0.4	1	957 79
+26	961	0.4	1	907 54
+27	868	0.4	1	805 63
+28	1289	0.4	1	1202 87
+29	643	0.4	1	597 46
+30	1735	0.4	1	1625 110
+31	165	0.4	1	127 38
+32	621	0.4	1	587 34
+33	233	0.4	1	198 35
+34	292	0.4	1	266 26
+35	418	0.4	1	373 45
+36	481	0.4	1	430 51
+37	455	0.4	1	418 37
+38	348	0.4	1	302 46
+39	382	0.4	1	342 40
+40	380	0.4	1	329 51
+41	473	0.4	1	402 71
+42	982	0.4	1	882 100
+43	224	0.4	1	194 30
+44	421	0.4	1	374 47
+45	909	0.4	1	833 76
+46	272	0.4	1	218 54
+47	234	0.4	1	203 31
+48	266	0.4	1	234 32
+49	254	0.4	1	221 33
+50	330	0.4	1	284 46
+51	659	0.4	1	600 59
+52	213	0.4	1	175 38
+53	123	0.4	1	88 35
+54	184	0.4	1	152 32
+55	259	0.4	1	234 25
+56	243	0.4	1	187 56
+57	232	0.4	1	197 35
+58	392	0.4	1	344 48
+59	328	0.4	1	285 43
+60	296	0.4	1	248 48
+61	406	0.4	1	351 55
+62	495	0.4	1	432 63
+63	1366	0.4	1	1238 128
+64	2363	0.4	1	2167 196
+65	2511	0.4	1	2296 215
+66	1532	0.4	1	1392 140
+67	645	0.4	1	564 81
+68	261	0.4	1	214 47
+69	144	0.4	1	116 28
+70	87	0.4	1	60 27
+71	70	0.4	1	42 28
+72	63	0.4	1	32 31
+73	51	0.4	1	26 25
+74	70	0.4	1	37 33
+75	66	0.4	1	37 29
+76	57	0.4	1	32 25
+77	62	0.4	1	24 38
+78	71	0.4	1	47 24
+79	68	0.4	1	39 29
+80	82	0.4	1	27 55
+81	81	0.4	1	35 46
+82	70	0.4	1	38 32
+83	64	0.4	1	40 24
+84	89	0.4	1	55 34
+85	63	0.4	1	33 30
+86	55	0.4	1	39 16
+87	61	0.4	1	26 35
+88	66	0.4	1	28 38
+89	45	0.4	1	27 18
+90	38	0.4	1	20 18
+91	38	0.4	1	22 16
+92	52	0.4	1	19 33
+93	39	0.4	1	15 24
+94	33	0.4	1	12 21
+95	37	0.4	1	15 22
+96	74	0.4	1	23 51
+97	49	0.4	1	24 25
+98	119	0.4	1	54 65
+99	112	0.4	1	78 34
+100	187	0.4	1	147 40
+101	706	0.4	1	577 129
+
+
+RUN STATISTICS FOR INPUT FILE: SRR1811709_2.fastq.gz
+=============================================
+30099697 sequences processed in total
+The length threshold of paired-end sequences gets evaluated later on (in the validation step)
+
+Validate paired-end files SRR1811709_1_trimmed.fq.gz and SRR1811709_2_trimmed.fq.gz
+file_1: SRR1811709_1_trimmed.fq.gz, file_2: SRR1811709_2_trimmed.fq.gz
+
+
+>>>>> Now validing the length of the 2 paired-end infiles: SRR1811709_1_trimmed.fq.gz and SRR1811709_2_trimmed.fq.gz <<<<<
+Writing validated paired-end read 1 reads to SRR1811709_1_val_1.fq.gz
+Writing validated paired-end read 2 reads to SRR1811709_2_val_2.fq.gz
+
+Total number of sequences analysed: 30099697
+
+Number of sequence pairs removed because at least one read was shorter than the length cutoff (20 bp): 1735082 (5.76%)
+
+
+  >>> Now running FastQC on the validated data SRR1811709_1_val_1.fq.gz<<<
+
+Started analysis of SRR1811709_1_val_1.fq.gz
+Approx 5% complete for SRR1811709_1_val_1.fq.gz
+Approx 10% complete for SRR1811709_1_val_1.fq.gz
+Approx 15% complete for SRR1811709_1_val_1.fq.gz
+Approx 20% complete for SRR1811709_1_val_1.fq.gz
+Approx 25% complete for SRR1811709_1_val_1.fq.gz
+Approx 30% complete for SRR1811709_1_val_1.fq.gz
+Approx 35% complete for SRR1811709_1_val_1.fq.gz
+Approx 40% complete for SRR1811709_1_val_1.fq.gz
+Approx 45% complete for SRR1811709_1_val_1.fq.gz
+Approx 50% complete for SRR1811709_1_val_1.fq.gz
+Approx 55% complete for SRR1811709_1_val_1.fq.gz
+Approx 60% complete for SRR1811709_1_val_1.fq.gz
+Approx 65% complete for SRR1811709_1_val_1.fq.gz
+Approx 70% complete for SRR1811709_1_val_1.fq.gz
+Approx 75% complete for SRR1811709_1_val_1.fq.gz
+Approx 80% complete for SRR1811709_1_val_1.fq.gz
+Approx 85% complete for SRR1811709_1_val_1.fq.gz
+Approx 90% complete for SRR1811709_1_val_1.fq.gz
+Approx 95% complete for SRR1811709_1_val_1.fq.gz
+Analysis complete for SRR1811709_1_val_1.fq.gz
+
+  >>> Now running FastQC on the validated data SRR1811709_2_val_2.fq.gz<<<
+
+Started analysis of SRR1811709_2_val_2.fq.gz
+Approx 5% complete for SRR1811709_2_val_2.fq.gz
+Approx 10% complete for SRR1811709_2_val_2.fq.gz
+Approx 15% complete for SRR1811709_2_val_2.fq.gz
+Approx 20% complete for SRR1811709_2_val_2.fq.gz
+Approx 25% complete for SRR1811709_2_val_2.fq.gz
+Approx 30% complete for SRR1811709_2_val_2.fq.gz
+Approx 35% complete for SRR1811709_2_val_2.fq.gz
+Approx 40% complete for SRR1811709_2_val_2.fq.gz
+Approx 45% complete for SRR1811709_2_val_2.fq.gz
+Approx 50% complete for SRR1811709_2_val_2.fq.gz
+Approx 55% complete for SRR1811709_2_val_2.fq.gz
+Approx 60% complete for SRR1811709_2_val_2.fq.gz
+Approx 65% complete for SRR1811709_2_val_2.fq.gz
+Approx 70% complete for SRR1811709_2_val_2.fq.gz
+Approx 75% complete for SRR1811709_2_val_2.fq.gz
+Approx 80% complete for SRR1811709_2_val_2.fq.gz
+Approx 85% complete for SRR1811709_2_val_2.fq.gz
+Approx 90% complete for SRR1811709_2_val_2.fq.gz
+Approx 95% complete for SRR1811709_2_val_2.fq.gz
+Analysis complete for SRR1811709_2_val_2.fq.gz
+Deleting both intermediate output files SRR1811709_1_trimmed.fq.gz and SRR1811709_2_trimmed.fq.gz
+
+====================================================================================================
+
+###CF Trim galore (PE mode) successfully exited, took 42 minutes, 10 seconds..
+
+
+
+
+--------------------------------------------------------------------------------
+Module:			kallisto
+Run File:		SRR1811709_1.fastq.gz_fastq_kallisto.run
+Job ID:			cf_fastq_kallisto_1466004474_kallisto_744
+Previous Job ID:	cf_fastq_kallisto_1466004474_trim_galore_957
+Date & Time:		17:17, 15-06-2016
+--------------------------------------------------------------------------------
+
+
+Pseudoaligning against /home/rsh46/scratch/Genomes/Mus_musculus/GRCm38/Mus_musculus.GRCm38.cdna.all.idx
+
+---------- Kallisto version information ----------
+kallisto, version 0.43.0
+
+------- End of Kallisto version information ------
+
+###CFCMD kallisto quant -t 1 --pseudobam -i /home/rsh46/scratch/Genomes/Mus_musculus/GRCm38/Mus_musculus.GRCm38.cdna.all.idx -o SRR1811709_1_val_1.fq.gz_kallisto_output -b 100 SRR1811709_1_val_1.fq.gz SRR1811709_2_val_2.fq.gz | samtools view -Sb - > SRR1811709_1_val_1.fq.gz_kallisto.bam
+
+
+[quant] fragment length distribution will be estimated from the data
+[index] k-mer length: 31
+[index] number of targets: 96,626
+[index] number of k-mers: 87,312,671
+[index] number of equivalence classes: 333,129
+[quant] running in paired-end mode
+[quant] will process pair 1: SRR1811709_1_val_1.fq.gz
+                             SRR1811709_2_val_2.fq.gz
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 28,364,615 reads, 24,637,450 reads pseudoaligned
+[quant] estimated average fragment length: 223.804
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,364 rounds
+[bstrp] running EM for the bootstrap: 1[bstrp] running EM for the bootstrap: 2[bstrp] running EM for the bootstrap: 3[bstrp] running EM for the bootstrap: 4[bstrp] running EM for the bootstrap: 5[bstrp] running EM for the bootstrap: 6[bstrp] running EM for the bootstrap: 7[bstrp] running EM for the bootstrap: 8[bstrp] running EM for the bootstrap: 9[bstrp] running EM for the bootstrap: 10[bstrp] running EM for the bootstrap: 11[bstrp] running EM for the bootstrap: 12[bstrp] running EM for the bootstrap: 13[bstrp] running EM for the bootstrap: 14[bstrp] running EM for the bootstrap: 15[bstrp] running EM for the bootstrap: 16[bstrp] running EM for the bootstrap: 17[bstrp] running EM for the bootstrap: 18[bstrp] running EM for the bootstrap: 19[bstrp] running EM for the bootstrap: 20[bstrp] running EM for the bootstrap: 21[bstrp] running EM for the bootstrap: 22[bstrp] running EM for the bootstrap: 23[bstrp] running EM for the bootstrap: 24[bstrp] running EM for the bootstrap: 25[bstrp] running EM for the bootstrap: 26[bstrp] running EM for the bootstrap: 27[bstrp] running EM for the bootstrap: 28[bstrp] running EM for the bootstrap: 29[bstrp] running EM for the bootstrap: 30[bstrp] running EM for the bootstrap: 31[bstrp] running EM for the bootstrap: 32[bstrp] running EM for the bootstrap: 33[bstrp] running EM for the bootstrap: 34[bstrp] running EM for the bootstrap: 35[bstrp] running EM for the bootstrap: 36[bstrp] running EM for the bootstrap: 37[bstrp] running EM for the bootstrap: 38[bstrp] running EM for the bootstrap: 39[bstrp] running EM for the bootstrap: 40[bstrp] running EM for the bootstrap: 41[bstrp] running EM for the bootstrap: 42[bstrp] running EM for the bootstrap: 43[bstrp] running EM for the bootstrap: 44[bstrp] running EM for the bootstrap: 45[bstrp] running EM for the bootstrap: 46[bstrp] running EM for the bootstrap: 47[bstrp] running EM for the bootstrap: 48[bstrp] running EM for the bootstrap: 49[bstrp] running EM for the bootstrap: 50[bstrp] running EM for the bootstrap: 51[bstrp] running EM for the bootstrap: 52[bstrp] running EM for the bootstrap: 53[bstrp] running EM for the bootstrap: 54[bstrp] running EM for the bootstrap: 55[bstrp] running EM for the bootstrap: 56[bstrp] running EM for the bootstrap: 57[bstrp] running EM for the bootstrap: 58[bstrp] running EM for the bootstrap: 59[bstrp] running EM for the bootstrap: 60[bstrp] running EM for the bootstrap: 61[bstrp] running EM for the bootstrap: 62[bstrp] running EM for the bootstrap: 63[bstrp] running EM for the bootstrap: 64[bstrp] running EM for the bootstrap: 65[bstrp] running EM for the bootstrap: 66[bstrp] running EM for the bootstrap: 67[bstrp] running EM for the bootstrap: 68[bstrp] running EM for the bootstrap: 69[bstrp] running EM for the bootstrap: 70[bstrp] running EM for the bootstrap: 71[bstrp] running EM for the bootstrap: 72[bstrp] running EM for the bootstrap: 73[bstrp] running EM for the bootstrap: 74[bstrp] running EM for the bootstrap: 75[bstrp] running EM for the bootstrap: 76[bstrp] running EM for the bootstrap: 77[bstrp] running EM for the bootstrap: 78[bstrp] running EM for the bootstrap: 79[bstrp] running EM for the bootstrap: 80[bstrp] running EM for the bootstrap: 81[bstrp] running EM for the bootstrap: 82[bstrp] running EM for the bootstrap: 83[bstrp] running EM for the bootstrap: 84[bstrp] running EM for the bootstrap: 85[bstrp] running EM for the bootstrap: 86[bstrp] running EM for the bootstrap: 87[bstrp] running EM for the bootstrap: 88[bstrp] running EM for the bootstrap: 89[bstrp] running EM for the bootstrap: 90[bstrp] running EM for the bootstrap: 91[bstrp] running EM for the bootstrap: 92[bstrp] running EM for the bootstrap: 93[bstrp] running EM for the bootstrap: 94[bstrp] running EM for the bootstrap: 95[bstrp] running EM for the bootstrap: 96[bstrp] running EM for the bootstrap: 97[bstrp] running EM for the bootstrap: 98[bstrp] running EM for the bootstrap: 99[bstrp] running EM for the bootstrap: 100
+
+###CF kallisto (PE mode) successfully exited, took 1 hours, 9 minutes, 20 seconds..
+
+
+
+--------------------------------------------------------------------------------
+Unrecognised output: (indicated with "-> <-")
+--------------------------------------------------------------------------------
+-> slurmstepd: Exceeded job memory limit at some point. <-
+-> slurmstepd: Exceeded job memory limit at some point. <-
+-> slurmstepd: Exceeded job memory limit at some point. <-
+
+================================================================================
+
+
+
+
+
+###CF Run finished at 18:27 15-06-2016
+
+
+###CF Pipeline fastq_kallisto finished at 18:28 15-06-2016
+
+Sending HTML e-mail with sendmail..
+Sent a pipeline e-mail notification to rsh46@cam.ac.uk

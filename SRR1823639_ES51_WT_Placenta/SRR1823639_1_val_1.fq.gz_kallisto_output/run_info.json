@@ -1,0 +1,9 @@
+{
+	"n_targets": 96626,
+	"n_bootstraps": 100,
+	"n_processed": 18764085,
+	"kallisto_version": "0.43.0",
+	"index_version": 10,
+	"start_time": "Wed Jun 15 16:51:27 2016",
+	"call": "kallisto quant -t 1 --pseudobam -i /home/rsh46/scratch/Genomes/Mus_musculus/GRCm38/Mus_musculus.GRCm38.cdna.all.idx -o SRR1823639_1_val_1.fq.gz_kallisto_output -b 100 SRR1823639_1_val_1.fq.gz SRR1823639_2_val_2.fq.gz"
+}

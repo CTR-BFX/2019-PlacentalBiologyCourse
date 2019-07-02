@@ -1,0 +1,105 @@
+
+SUMMARISING RUN PARAMETERS
+==========================
+Input filename: SRR1823642_1.fastq.gz
+Trimming mode: paired-end
+Trim Galore version: 0.4.1
+Cutadapt version: 1.8.1
+Quality Phred score cutoff: 20
+Quality encoding type selected: ASCII+33
+Adapter sequence: 'AGATCGGAAGAGC' (Illumina TruSeq, Sanger iPCR; auto-detected)
+Maximum trimming error rate: 0.1 (default)
+Minimum required adapter overlap (stringency): 1 bp
+Minimum required sequence length for both reads before a sequence pair gets removed: 20 bp
+Running FastQC on the data once trimming has completed
+Output file will be GZIP compressed
+
+
+This is cutadapt 1.8.1 with Python 2.7.5
+Command line parameters: -f fastq -e 0.1 -q 20 -O 1 -a AGATCGGAAGAGC SRR1823642_1.fastq.gz
+Trimming 1 adapter with at most 10.0% errors in single-end mode ...
+Finished in 392.95 s (17 us/read; 3.63 M reads/minute).
+
+=== Summary ===
+
+Total reads processed:              23,762,312
+Reads with adapters:                 7,488,514 (31.5%)
+Reads written (passing filters):    23,762,312 (100.0%)
+
+Total basepairs processed: 1,211,877,912 bp
+Quality-trimmed:             151,852,969 bp (12.5%)
+Total written (filtered):  1,048,765,930 bp (86.5%)
+
+=== Adapter 1 ===
+
+Sequence: AGATCGGAAGAGC; Type: regular 3'; Length: 13; Trimmed: 7488514 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-13 bp: 1
+
+Bases preceding removed adapters:
+  A: 29.7%
+  C: 33.4%
+  G: 20.6%
+  T: 15.9%
+  none/other: 0.4%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+1	5056706	5940578.0	0	5056706
+2	1792944	1485144.5	0	1792944
+3	474478	371286.1	0	474478
+4	95600	92821.5	0	95600
+5	21596	23205.4	0	21596
+6	5326	5801.3	0	5326
+7	3847	1450.3	0	3847
+8	2425	362.6	0	2425
+9	3478	90.6	0	1851 1627
+10	3618	22.7	1	2723 895
+11	2644	5.7	1	1943 701
+12	2735	1.4	1	2511 224
+13	1516	0.4	1	1405 111
+14	2414	0.4	1	2235 179
+15	3041	0.4	1	2813 228
+16	1321	0.4	1	1211 110
+17	1582	0.4	1	1476 106
+18	1050	0.4	1	958 92
+19	986	0.4	1	913 73
+20	1224	0.4	1	1126 98
+21	692	0.4	1	626 66
+22	725	0.4	1	649 76
+23	951	0.4	1	862 89
+24	978	0.4	1	887 91
+25	609	0.4	1	544 65
+26	613	0.4	1	533 80
+27	475	0.4	1	418 57
+28	574	0.4	1	507 67
+29	550	0.4	1	471 79
+30	410	0.4	1	322 88
+31	643	0.4	1	536 107
+32	384	0.4	1	291 93
+33	404	0.4	1	333 71
+34	303	0.4	1	247 56
+35	315	0.4	1	258 57
+36	242	0.4	1	176 66
+37	340	0.4	1	292 48
+38	179	0.4	1	147 32
+39	82	0.4	1	59 23
+40	30	0.4	1	8 22
+41	39	0.4	1	18 21
+42	79	0.4	1	35 44
+43	60	0.4	1	38 22
+44	31	0.4	1	16 15
+45	15	0.4	1	7 8
+46	41	0.4	1	12 29
+47	26	0.4	1	13 13
+48	73	0.4	1	21 52
+49	37	0.4	1	4 33
+50	32	0.4	1	5 27
+51	51	0.4	1	0 51
+
+
+RUN STATISTICS FOR INPUT FILE: SRR1823642_1.fastq.gz
+=============================================
+23762312 sequences processed in total
+

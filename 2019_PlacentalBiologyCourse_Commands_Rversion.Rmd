@@ -1,0 +1,110 @@
+---
+title: "2019_PlacentalBiologyCourse_Commands_Rversion"
+author: "R.Hamilton, M.Prater, X.Zhao"
+emails: "rsh46@cam.ac.uk, mn367@cam.ac.uk, xz289@cam.ac.uk"
+Twitter: @drrshamilton
+WebLink: http://www.trophoblast.cam.ac.uk/directory/Russell-Hamilton
+date: "17/06/2019"
+output: html_document
+---
+R-wrapper to call the basic linux commands and other software to perform the sequecing quality control and align\
+ing analysis. The data is one of the subset of sample derived from: `10.1242/dev.130369`  Stumpo DJ et al (2016)\
+Deficiency of the placenta- and yolk sac-specific tristetraprolin family member ZFP36L3 identifies likely mRNA \
+targets and an unexpected link to placental iron  metabolism. Development, 143(8):1424-33.
+
+Copyright Russell S. Hamilton (rsh46@cam.ac.uk), Malwina Prater (mn367@cam.ac.uk) and Xiaohui Zhao (xz289@cam.ac\
+                                                                                                    .uk), July 2019-04
+
+License:              Attribution-Non Commercial-Share Alike CC BY-NC-SA
+https://creativecommons.org/licenses/by-nc-sa/
+  
+Attribution:      You must give appropriate credit, provide a link to the license, and indicate
+if changes were made. You may do so in any reasonable manner, but not in any
+way that suggests the licensor endorses you or your use.
+
+NonCommercial:  You may not use the material for commercial purposes.
+
+ShareAlike:         If you remix, transform, or build upon the material, you must distribute your
+contributions under the same license as the original.
+
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, error=FALSE, warning = FALSE, background = '#d6d6ff')
+```
+## Linux
+Linux basic commands,
+"cd ~" -- change back to the home directory
+"tree" -- view files and directories in a hierarchical structure
+"ls" -- list files/directories in main directory
+"history" -- view a list of the most recent commands used
+"zcat" -- view gzip file
+"head" -- show the head of the file
+
+```{r call linux }
+
+system("tree")
+system("ls")
+system("cd ~")
+system("cd /home/ctr-teaching-test")
+system("zcat SRR1823638_sub_1.fastq.gz | head -n 8")
+
+## The rest of practical will be ran in the directory of SRR1823638_sub_2019 with a WT sample subset, 1-million reads.
+## FASTQC(0.11.5) Download Link: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+
+## Quality control tool  for the high throughput sequence data. Check details on the website user manual and tutorial.
+## Using firefox to view the report online. For paired-end reads you will have the fastqc report for each strand, respectively.
+```
+
+```{r call fastqc}
+
+system("/storage/Software/packages/fastqc/0.11.5/FastQC//fastqc SRR1823638_sub_1.fastq.gz SRR1823638_sub_2.fastq.gz")
+
+```
+## view the file from the weblink.
+# http://ctr-web.pdn.cam.ac.uk/SRR1823638_sub_1_fastqc.html
+
+
+## TRIM_GALORE (v0.4.2) http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/
+## Cutadapt (1.9.1) https://cutadapt.readthedocs.io/en/stable/installation.html
+
+A wrapper tool around Cutadapt to consistently apply quality and adapter trimming to FastQ files. The output fil\
+es will be named as "SRR1823638_sub_1_val_1.fq.gz" and "SRR1823638_sub_2_val_2.fq.gz".
+
+```{r call trim_galore, echo=FALSE}
+
+system("/storage/Software/packages/TrimGalore-0.6.3/trim_galore --paired --gzip -q 20 SRR1823638_sub_1.fastq.gz SRR1823638_sub_2.fastq.gz")
+
+```
+
+## KALLISTO (0.44.0) https://pachterlab.github.io/kallisto
+
+Program for quantifying abundances of transcripts from RNA-Seq data, without the need for alignment. You will ha\
+ve the output files saved in the following folder:
+  kallisto_output/
+  abundance.h5
+  abundance.tsv
+  run_info.json
+And the commands are as following:
+
+```{r call kallisto}
+## build index, Do not run
+# kallisto index -i Mus_musculus.GRCm38.cdna.all.idx Mus_musculus.GRCm38.cdna.all.fa.gz
+system("/storage/Software/packages/kallisto_linux-v0.44.0//kallisto quant -b 25 -i Mus_musculus.GRCm38.cdna.all.idx -o kallisto_output SRR1823638_sub_1_val_1.fq.gz SRR1823638_sub_2_val_2.fq.gz")
+
+```
+## Finally, we would like to wrap all of the above analysis in a report which is easy to spot the process in det\
+ail.
+## MULTIQC (1.8.dev0) http://multiqc.info/
+
+Aggregate results from bioinformatics analyses across many samples into a single report.
+
+## Do not run
+```{r call multiqc, echo=FALSE}
+# system("multiqc -f -i "Placental Biology Course 2019" --filename "multiqc.html"")
+
+```
+## The multiqc result is in the following weblink
+# http://ctr-web.pdn.cam.ac.uk/multiqc.html
+
+
