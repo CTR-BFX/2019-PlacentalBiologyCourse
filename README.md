@@ -1,6 +1,6 @@
 # Centre for Trophoblast Research: Placental Bioinformatics Course
 
-<sup>Version 0.1: 20190619</sup>
+<sup>Version 0.2: 20190702</sup>
 
 Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) & Malwina Prater (mn367@cam.ac.uk)
 
@@ -9,11 +9,11 @@ Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) & Malwina 
 
 What is RNA sequencing? From Sequencer to gene counts
  - Lecture 1: [[2019_PlacentalBiologyCourse_Lecture_1](2019_PlacentalBiologyCourse_Lecture_1.pptx)]
- - Practical 1: [[2018_PlacentalBiologyCourse_Commands.txt](2018_PlacentalBiologyCourse_Commands.txt)]
+ - Practical 1: [[2019_PlacentalBiologyCourse_Commands_Rversion.Rmd](2019_PlacentalBiologyCourse_Commands_Rversion.Rmd)]
 
 From Gene counts to differential expression analysis
  - Lecture 2: [[2019_PlacentalBiologyCourse_Lecture_2](2019_PlacentalBiologyCourse_Lecture_2.pptx)]
- - Practical 2: [[2018_PlacentalBiologyCourse_Sleuth.Rmd](2018_PlacentalBiologyCourse_Sleuth.Rmd)]
+ - Practical 2: [[2019_PlacentalBiologyCourse_DESeq2.Rmd](2019_PlacentalBiologyCourse_DESeq2.Rmd)]
 
 ### Objective for the practical ###
 
@@ -40,28 +40,29 @@ And downloaded via EBI European Nucleotide Archive (ENA) from
 - [Yolk Sac](https://www.ebi.ac.uk/ena/data/view/PRJNA275943)
 - [Placenta](https://www.ebi.ac.uk/ena/data/view/PRJNA275944)
 
-
-
-
 #### Reference Genome / Transcriptome ####
 
-Gene to transcript table
+Gene to transcript table and entrezid (these would normally be downloaded during the analysis, but this is not robust enough for a practical with muultiple people downloading at the same time)
 - [ENST_ENSG_GeneName.GRCm38.kallisto.table](ENST_ENSG_GeneName.GRCm38.kallisto.table)
+- [ensEMBL2id.csv](ensEMBL2id.csv)
 - A Kallisto index for GRCm38 is required e.g. Mus_musculus.GRCm38.cdna.all.idx. See [https://pachterlab.github.io/kallisto/starting.html](https://pachterlab.github.io/kallisto/starting.html) for details how to create/download.
 
-
 #### Sample Files with pre-made QC and alignments ####
-- SRR1811706_ES610_WT_Yolk_Sac
-- SRR1811707_ES611_WT_Yolk_Sac
-- SRR1811708_ES612_WT_Yolk_Sac
-- SRR1811709_ES613_WT_Yolk_Sac
-- SRR1823638_ES51_WT_Placenta
-- SRR1823639_ES51_WT_Placenta
-- SRR1823640_ES52_WT_Placenta
-- SRR1823641_ES52_WT_Placenta
-- SRR1823642_ES53_WT_Placenta
-- SRR1823643_ES54_WT_Placenta
-- SRR1823644_ES55_WT_Placenta
+- [SRR1811706_ES610_WT_Yolk_Sac](SRR1811706_ES610_WT_Yolk_Sac)
+- [SRR1811707_ES611_WT_Yolk_Sac](SRR1811707_ES611_WT_Yolk_Sac)
+- [SRR1811708_ES612_WT_Yolk_Sac](SRR1811708_ES612_WT_Yolk_Sac)
+- [SRR1811709_ES613_WT_Yolk_Sac](SRR1811709_ES613_WT_Yolk_Sac)
+- [SRR1823638_ES51_WT_Placenta](SRR1823638_ES51_WT_Placenta)
+- [SRR1823639_ES51_WT_Placenta](SRR1823639_ES51_WT_Placenta)
+- [SRR1823640_ES52_WT_Placenta](SRR1823640_ES52_WT_Placenta)
+- [SRR1823641_ES52_WT_Placenta](SRR1823641_ES52_WT_Placenta)
+- [SRR1823642_ES53_WT_Placenta](SRR1823642_ES53_WT_Placenta)
+- [SRR1823643_ES54_WT_Placenta](SRR1823643_ES54_WT_Placenta)
+- [SRR1823644_ES55_WT_Placenta](SRR1823644_ES55_WT_Placenta)
+
+Subsampled FASTQ files for running fastQC, trim_galore and kallisto on the teaching computers
+- [SRR1823638_sub_1.fastq.gz](SRR1823638_sub_1.fastq.gz)
+- [SRR1823638_sub_2.fastq.gz](SRR1823638_sub_2.fastq.gz)
 
 #### Files Excluded from this distribution ####
 
