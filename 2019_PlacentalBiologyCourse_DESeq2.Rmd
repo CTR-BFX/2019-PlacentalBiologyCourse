@@ -3,19 +3,20 @@ title: "2019_PlacentalBiologyCourse_DESeq2.Rmd"
 author: "R.Hamilton, M.Prater, X.Zhao"
 date: "17/06/2019"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
-#### Authors  :   Dr Russell S. Hamilton, Dr Malwina Prater, Dr Xiaohui Zhao
+#### Authors  :  Dr Russell S. Hamilton, Dr Malwina Prater, Dr Xiaohui Zhao
 #### Emails   :	 rsh46@cam.ac.uk,  mn367@cam.ac.uk, xz289@cam.ac.uk 
 #### Twitter  :	 @drrshamilton
 #### Web      :	 http://www.trophoblast.cam.ac.uk/directory/Russell-Hamilton
 #### Placental Biology Course 2019 (Centre for Trophoblast Research, University of Cambridge)
 
+
 R-Script to perform differential transcript analysis of Placenta vs Yolk WT samples
  
-Data derived from:  `10.1242/dev.130369`  Stumpo DJ et al (2016) Deficiency of the placenta- and yolk sac-specific tristetraprolin family member ZFP36L3 identifies likely mRNA targets and an unexpected link to placental iron  metabolism. Development, 143(8):1424-33
+Data derived from:  `10.1242/dev.130369`  Stumpo DJ et al (2016) Deficiency of the placenta- and yolk sac-specific tristetraprolin family member ZFP36L3 identifies likely mRNA targets and an unexpected link to placental iron  metabolism. *Development*, **143(8)**:1424-33
  
 
 Copyright Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) and Malwina Prater (mn367@cam.ac.uk) July 2016-19  
@@ -23,7 +24,7 @@ Copyright Russell S. Hamilton (rsh46@cam.ac.uk), Xiaohui Zhao (xz289@cam.ac.uk) 
 License: 	      Attribution-Non Commercial-Share Alike CC BY-NC-SA  
                 https://creativecommons.org/licenses/by-nc-sa/    
  
-Attribution:	  You must give appropriate credit, provide a link to the license, and indicate   
+Attribution:	  You must give appropriate credit, provide a link to the license, and indicate 
                 if changes were made. You may do so in any reasonable manner, but not in any   
                 way that suggests the licensor endorses you or your use. 
                   
@@ -34,11 +35,18 @@ ShareAlike:	    If you remix, transform, or build upon the material, you must di
 
 
 
+
 ```{r setup, echo=TRUE, include=FALSE}
+
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE, error=FALSE, warning = FALSE, background = '#d6d6ff')
+
 ```
-Install the required external libraries / packages if needed
+
+Install the required external libraries / packages if needed:
+
+```{r, echo=TRUE, include=FALSE}
+
 #source("http://bioconductor.org/biocLite.R")
 #biocLite("rhdf5")
 #install.packages("devtools")
@@ -53,79 +61,13 @@ Install the required external libraries / packages if needed
 #BiocManager::install("topGO")
 #BiocManager::install("Rgraphviz")
 
+```
 
+Load in the required external libraries / packages:
 
-
-Load in the required external libraries / packages
 ```{r, message=FALSE}
-library("dplyr")
-library("DESeq2")
-```
 
-Set up the working directories, they should point to the location of the data
-```{r}
-base_dir <- "/home/ctr-teaching-test"
-setwd(base_dir)
-list.files(base_dir)
-
-
-l2fc <- 2
-significance <- 0.05
-```
-
-Read in the locations of the kallisto_output directories. Print out to screen the directories, you should see a list of 11 directories
-```{r}
-dirs <- grep("SRR.*/SRR.*_kallisto_output",list.dirs(base_dir,recursive=TRUE),value=TRUE)
-print(dirs)
-```
-
-Parse out the short sample names for nicer displays in plots later on in the analysis
-```{r}
-sample_id <- gsub("_1_val_1.fq.gz_kallisto_output", "", dirs)
-sample_id <- gsub(".*/", "", sample_id)
-# print to screen the new short names, they should look like "SRR1811706" ...
-show(sample_id)
-```
-
-Make sample table:
-```{r}
-sample <-    c("SRR1811706", "SRR1811707", "SRR1811708", "SRR1811709", "SRR1823638", "SRR1823639", "SRR1823640", "SRR1823641", "SRR1823642", "SRR1823643", "SRR1823644")
-condition <- c("YolkSac",    "YolkSac",    "YolkSac",    "YolkSac",    "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta")
-sample_table <- data.frame(sample, condition)
-sample_table <- dplyr::select(sample_table, sample = sample, condition = condition)
-sample_table <- dplyr::mutate(sample_table, path = dirs)
-sample_table[] <- lapply(sample_table, as.character)
-# Lets have a look at the sample table linkes the sample, condition directories / filenames
-print(sample_table)
-```
-
-
-
-Now you need to read in the annotations for transcripts. Usually it is best to pull the data directly from the ensEMBL website using biomart. However, for this practical we have premade the annotation file "ENST_ENSG_GeneName.GRCm38.kallisto.table". This can still take a little while to load in...
-```{r}
-t2g <- read.table(file.path(base_dir, "ENST_ENSG_GeneName.GRCm38.kallisto.table"), header = TRUE, stringsAsFactors=FALSE)
-t2g_deseq2 <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
-t2g_deseq2$ens_gene  <- gsub("\\.[0-9]*", "", t2g_deseq2$ens_gene)
-
-head(t2g_deseq2)
-```
-
-
-
-
-
-Differential gene analysis using DESeq2
-- The package DESeq2 provides methods to test for differential expression by use of negative binomial generalized linear models; the estimates of dispersion and logarithmic fold changes incorporate data-driven prior distributions.
-- method uses shrinkage estimation for dispersions and fold changes to improve stability and interpretability of estimates
-
-See publication: Love, M.I., Huber, W., Anders, S. (2014) Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15:550. 10.1186/s13059-014-0550-8.
-
-
-DESeq2 accepts inputs: an unnormalised count matrix (called here txi) and a table of sample information (here called sample_table)
-
-
-Load the libraries
-```{r, message=FALSE}
+library(dplyr)
 library(DESeq2)
 library(ggplot2)
 library(ggrepel)
@@ -141,76 +83,166 @@ library(org.Mm.eg.db)
 library(Rgraphviz)
 library(tximport)
 library(readr)
+
 ```
 
-Create a list of count files
+Set up the working directories, they should point to the location of the data:
+
 ```{r}
+
+base_dir <- "/home/ctr-teaching-test"
+setwd(base_dir)
+list.files(base_dir)
+
+l2fc <- 2
+significance <- 0.05
+
+```
+
+Read in the locations of the kallisto_output directories. Print out to screen the directories, you should see a list of 11 directories.
+
+```{r}
+
+dirs <- grep("SRR.*/SRR.*_kallisto_output",list.dirs(base_dir,recursive=TRUE),value=TRUE)
+print(dirs)
+
+```
+
+Parse out the short sample names for nicer displays in plots later on in the analysis:
+
+```{r}
+sample_id <- gsub("_1_val_1.fq.gz_kallisto_output", "", dirs)
+sample_id <- gsub(".*/", "", sample_id)
+# print to screen the new short names, they should look like "SRR1811706" ...
+print(sample_id)
+
+```
+
+Make sample table:
+
+```{r}
+
+sample <-    c("SRR1811706", "SRR1811707", "SRR1811708", "SRR1811709", "SRR1823638", "SRR1823639", "SRR1823640", "SRR1823641", "SRR1823642", "SRR1823643", "SRR1823644")
+condition <- c("YolkSac",    "YolkSac",    "YolkSac",    "YolkSac",    "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta")
+sample_table <- data.frame(sample, condition)
+sample_table <- dplyr::select(sample_table, sample = sample, condition = condition)
+sample_table <- dplyr::mutate(sample_table, path = dirs)
+
+# Lets have a look at the sample table linkes the sample, condition directories / filenames
+print(sample_table)
+
+```
+
+
+Now you need to read in the annotations for transcripts. Usually it is best to pull the data directly from the ensEMBL website using biomart. However, for this practical we have premade the annotation file "ENST_ENSG_GeneName.GRCm38.kallisto.table". This can still take a little while to load in...
+
+```{r}
+
+t2g <- read.table(file.path(base_dir, "ENST_ENSG_GeneName.GRCm38.kallisto.table"), header = TRUE, stringsAsFactors=FALSE)
+t2g_deseq2 <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
+t2g_deseq2$ens_gene  <- gsub("\\.[0-9]*", "", t2g_deseq2$ens_gene)
+
+head(t2g_deseq2)
+
+```
+
+
+##### Differential gene analysis using DESeq2
+
+- The package DESeq2 provides methods to test for differential expression by use of negative binomial generalized linear models; the estimates of dispersion and logarithmic fold changes incorporate data-driven prior distributions.
+- method uses shrinkage estimation for dispersions and fold changes to improve stability and interpretability of estimates
+
+See publication: Love, M.I., Huber, W., Anders, S. (2014) Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15:550. 10.1186/s13059-014-0550-8.
+
+
+DESeq2 accepts inputs: an unnormalised count matrix (called here txi) and a table of sample information (here called sample_table).
+
+
+
+Create a list of count files:
+
+```{r}
+
 files <- file.path(dirs, "abundance.tsv")
 names(files) <- sample_id
 all(file.exists(files))
+
 ```
 
-Import the files and examine raw counts
-```{r, message=FALSE}
+Import the files and examine raw counts.
 
+```{r, message=FALSE}
 
 txi <- tximport(files, type = "kallisto", tx2gene = t2g_deseq2[,c(1,2)])
 names(txi)
 head(txi$counts)
+
 ```
 
 Differential expression analysis steps are wrapped into a single function, `DESeq()`. 
-```{r, message=TRUE, warning=FALSE}
+
+```{r, message=FALSE, warning=FALSE}
+
 dds <- DESeqDataSetFromTximport(txi, sample_table, ~condition)
 dds <- DESeq(dds)
-head(dds)
+dds
 resultsNames(dds)
+
 ```
 
 Results tables are generated using the function `results()`.
+
 ```{r, message=TRUE, warning=FALSE}
+
 res <- lfcShrink(dds, coef="condition_YolkSac_vs_Placenta", type="normal")
 res <-res[order(res$padj),]
 head(res)
 summary(res)
+# we can save the results table:
 #write.csv(res, file=paste("DESeq2", "_kallisto_results_table.csv", sep =""))
+
 ```
 
 How many adjusted p-values were less than 0.05?
+
 ```{r}
+
 sum(res$padj < 0.05, na.rm=TRUE)
+
 ```
 
-Now annotate DESeq2 results table `res` and lets call it `results_deseq2`
+Now annotate DESeq2 results table `res` and lets call it `results_deseq2`.
+
 ```{r}
-anno_df                 <- t2g_deseq2[!duplicated(t2g_deseq2), ] 
-head(anno_df)
+
+#library(biomaRt)
+#ensembl    =  useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl")
+#ensEMBL2id <- getBM(attributes=c('ensembl_gene_id', 'external_gene_name', 'entrezgene', 'description'), mart = ensembl)       
+ensEMBL2id <- read.csv("ensEMBL2id.csv")
+ensEMBL2id <- ensEMBL2id[,-1]
+head(ensEMBL2id)
 results_deseq2          <- as.data.frame(res)
 results_deseq2$ens_gene <- rownames(results_deseq2)
-results_deseq2          <- merge(results_deseq2, anno_df, by = "ens_gene" )
-results_deseq2          <- results_deseq2[order(results_deseq2$padj),]
-results_deseq2          <- unique(results_deseq2[,-8])
-
+results_deseq2          <- unique(merge(results_deseq2, ensEMBL2id, by.x = "ens_gene", by.y = "ensembl_gene_id", all.x= TRUE))
 head(results_deseq2)
+
 ```
 
-
-Explore data using default DeSeq2 Functions
+Explore data using default DeSeq2 Functions:
 
 ```{r}
+
 DESeq2::plotMA(res)
 
 ```
 
+Explore data using custom functions:
 
-Explore data using custom functions
 ```{r, warning=FALSE}
 
 Title <- "MA plot"
 
-
 results_deseq2.ma <- results_deseq2
-
 results_deseq2.ma$log2FoldChange[results_deseq2.ma$log2FoldChange > 10]  <- 10
 results_deseq2.ma$log2FoldChange[results_deseq2.ma$log2FoldChange < -10] <- -10
 
@@ -228,11 +260,11 @@ ggplot(data = results_deseq2.ma, aes(x=baseMean, y=log2FoldChange)) +
   geom_point(data=subset(results_deseq2.ma, (padj <= significance & log2FoldChange >=  l2fc)), size=1, alpha=0.5,  col="red") +
   geom_point(data=subset(results_deseq2.ma, (padj <= significance & log2FoldChange <= -l2fc)), size=1, alpha=0.5,  col="blue") +
   geom_label_repel(data=results_deseq2.label.up[1:10,],
-                   aes( x=baseMean, y=log2FoldChange, label=external_gene_shortname),
+                   aes( x=baseMean, y=log2FoldChange, label=external_gene_name),
                    fill='gray', colour='black', point.padding = unit(0.25, "lines"),  
                    size=3, segment.size = 1, segment.color = 'darkred',  nudge_x = 0, nudge_y=0) +
   geom_label_repel(data=results_deseq2.label.down[1:10,],
-                   aes( x=baseMean, y=log2FoldChange, label=external_gene_shortname),
+                   aes( x=baseMean, y=log2FoldChange, label=external_gene_name),
                    fill='gray', colour='black', point.padding = unit(0.25, "lines"),  
                    size=3, segment.size = 1, segment.color = 'darkblue',  nudge_x = 0, nudge_y=0) +
   scale_x_log10() +
@@ -240,27 +272,29 @@ ggplot(data = results_deseq2.ma, aes(x=baseMean, y=log2FoldChange)) +
   geom_abline(intercept = l2fc, slope = 0, colour='green', alpha=0.25) + 
   geom_abline(intercept = -l2fc, slope = 0, colour='green', alpha=0.25)
 
-
 ```
 
+Lets pick a gene to examine individually - Flt1 (ENSMUSG00000029648).
 
-
-Lets pick a gene to examine individually - Flt1 (ENSMUSG00000029648)
 ```{r}
-plotCounts(dds, gene="ENSMUSG00000029648", intgroup="condition")
-```
 
-rlog transformation
+plotCounts(dds, gene="ENSMUSG00000029648", intgroup="condition")
+
+```
+**rlog transformation**
+
 This function transforms the count data to the log2 scale in a way which minimizes differences between samples for rows with small counts, and which normalizes with respect to library size.
 Note: This an take upto a minute to run!!!
 
 ```{r}
+
 rld <- rlogTransformation(dds)
+
 ```
 
-Plot PCA
-```{r}
+Plot PCA:
 
+```{r}
 
 elementTextSize <- 8
 topNum = 500
@@ -285,10 +319,11 @@ ggplot(scores, aes(x = PC1, y = PC2, col = condition )) +
   xlab(pc1lab) + ylab(pc2lab) + 
   ggtitle(paste(" PCA Top ", topNum, " MV", sep="")) +
   theme(text = element_text(size=elementTextSize)) 
+
 ```
 
+Example of hierarchical clustering:
 
-Hierarchical clustering
 ```{r}
 
 rld_name <- rld
@@ -297,25 +332,23 @@ colnames(rld_name) <- paste(colnames(rld_name),  sample_table$condition, sep = "
 sample_distances <- dist(t(assay(rld_name)[select, ]))
 
 ggdendrogram(hclust(sample_distances), rotate = FALSE, segments = TRUE)
+
 ```
 
+Heatmap of top DEGs:
 
-
-Heatmap of top DEGs
 ```{r}
 
-# plot top 30  genes:
+#### plot top 25  genes:
 selected_genes    <- subset(results_deseq2, results_deseq2$padj < 0.00000001)
-selected_genes    <- head(selected_genes[order(abs(selected_genes$log2FoldChange), decreasing = TRUE),],  30)
+selected_genes    <- head(selected_genes[order(abs(selected_genes$log2FoldChange), decreasing = TRUE),],  25)
 selected_genes_id <- selected_genes$ens_gene
 genes2plot        <- unique( selected_genes_id )
 
-
-# plot selected genes of interest:
+#### alternatively you can plot selected genes of interest e.g.:
 #selected_genes    <- c("Itgb3", "Lepr", "Synb", "Sct", "Ghrh", "Psg16")
 #selected_genes_id <- results_deseq2.ma[results_deseq2.ma$external_gene_shortname %in% selected_genes,]
 #genes2plot <- unique(selected_genes_id$ens_gene)
-
 
 rows         <- match(genes2plot, row.names(assay(rld)))
 mat          <- assay(rld)[rows,]
@@ -337,27 +370,22 @@ rownames(annotation_col) <- colnames(mat.new)
 ann_colors = list(condition = c(YolkSac = "blue", Placenta= "red"))
 
 
-pheatmap(mat.new, fontsize=10, fontsize_row=10, show_rownames=TRUE, cluster_cols = TRUE, cluster_rows = TRUE, cellwidth = 20, cellheight = 12, treeheight_row = 30, annotation_col = annotation_col, annotation_colors = ann_colors)
+pheatmap(mat.new, fontsize=10, fontsize_row=10, show_rownames=TRUE, cluster_cols = TRUE, cluster_rows = TRUE, cellwidth = 15, cellheight = 8, treeheight_row = 30, treeheight_col = 20,  annotation_col = annotation_col, annotation_colors = ann_colors)
+
 ```
 
-
-
 GO analysis using `clusterProfiler`. Entrez gene id usually needed for GO analysis.
+
 ```{r}
 
-
-#library(biomaRt)
-#ensembl    =  useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl")
-#ensEMBL2id <- getBM(attributes=c('ensembl_gene_id', 'external_gene_name', 'entrezgene', 'description'), mart = ensembl)       
-ensEMBL2id <- read.csv("ensEMBL2id.csv")
-
-results_deseq2_ann <- unique(merge(results_deseq2, ensEMBL2id, by.x = "ens_gene", by.y = "ensembl_gene_id", all.x= TRUE))
-
-RESULTS_l2fc2 <- subset(results_deseq2_ann, results_deseq2_ann$padj < 0.05 & abs(results_deseq2_ann$log2FoldChange) > 3)
+# create results table with significant genes that have absolute log2FC > 2
+RESULTS_l2fc2 <- subset(results_deseq2, results_deseq2$padj < 0.05 & abs(results_deseq2$log2FoldChange) > 2)
 RESULTS_l2fc2 <- RESULTS_l2fc2[order(RESULTS_l2fc2$log2FoldChange, decreasing = TRUE),]
 
-geneList <- results_deseq2_ann$log2FoldChange
-names(geneList) <- results_deseq2_ann$entrezgene
+
+# for GO analysis, create a vector of all genes and DEGs with their log2FC's:
+geneList <- results_deseq2$log2FoldChange
+names(geneList) <- results_deseq2$entrezgene
 geneList <- geneList[!is.na(names(geneList))]
 
 SigGeneList <- RESULTS_l2fc2$log2FoldChange
@@ -365,12 +393,12 @@ names(SigGeneList) <- RESULTS_l2fc2$entrezgene
 SigGeneList <- SigGeneList[!is.na(names(SigGeneList))]
 SigGeneList <- SigGeneList[!is.na(SigGeneList)]
 
+# sort the vector 
 SigGeneList <- sort(SigGeneList, decreasing = T )
 gene <- names(SigGeneList)
 
 head(SigGeneList)
 head(gene)
-
 
 # GO over-representation test
 ego_bp <- enrichGO(gene = gene, universe = names(geneList), OrgDb = org.Mm.eg.db, ont = "BP",  pAdjustMethod = "BH", pvalueCutoff  = 0.05, qvalueCutoff  = 0.05, readable      = TRUE)
@@ -382,12 +410,11 @@ ego_bp_df <- as.data.frame(ego_bp)
 ego_cc_df <- as.data.frame(ego_cc) 
 ego_mf_df <- as.data.frame(ego_mf)
 
-
 ```
 
-Some ways to visualize GO results
-```{r, message=FALSE, fig.width = 10, fig.height = 10}
+Some ways to visualize GO results:
 
+```{r, message=FALSE, fig.width = 10, fig.height = 10}
 
 # Bar plot is the most widely used method to visualize enriched terms. It depicts the enrichment scores (e.g. p values) and gene count or ratio as bar height and color.
 barplot(ego_bp, showCategory = 10)
@@ -402,7 +429,7 @@ cnetplot(ego_mf, foldChange=SigGeneList, circular = FALSE, showCategory = 2)
 
 
 # The heatplot is similar to cnetplot, while displaying the relationships as a heatmap.
-heatplot(ego_cc, foldChange=SigGeneList, showCategory = 2)
+heatplot(ego_cc, foldChange=SigGeneList, showCategory = 10)
 
 
 # Enrichment map organizes enriched terms into a network with edges connecting overlapping gene sets. In this way, mutually overlapping gene sets are tend to cluster together, making it easy to identify functional module:
@@ -412,21 +439,5 @@ emapplot(ego_bp, showCategory=10, color = "p.adjust")
 # Show significant GO nodes
 plotGOgraph(ego_bp, useFullNames = TRUE )
 
-
-
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
