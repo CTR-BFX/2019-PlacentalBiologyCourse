@@ -13,7 +13,8 @@ What is RNA sequencing? From Sequencer to gene counts
 
 From Gene counts to differential expression analysis
  - Lecture 2: [[2019_PlacentalBiologyCourse_Lecture_2](2019_PlacentalBiologyCourse_Lecture_2.pptx)]
- - Practical 2: [[2019_PlacentalBiologyCourse_DESeq2.Rmd](2019_PlacentalBiologyCourse_DESeq2.Rmd)]
+ - Practical 2: [[2019_PlacentalBiologyCourse_DESeq2.Rmd](2019_PlacentalBiologyCourse_DESeq2.Rmd)] and a PDF summary
+ [[2019_PlacentalBiologyCourse_DESeq2.pdf](2019_PlacentalBiologyCourse_DESeq2.pdf)]
 
 ### Objective for the practical ###
 

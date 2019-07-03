@@ -3,8 +3,8 @@ title: "2019_PlacentalBiologyCourse_DESeq2.Rmd"
 author: "R.Hamilton, M.Prater, X.Zhao"
 date: "17/06/2019"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 #### Authors  :  Dr Russell S. Hamilton, Dr Malwina Prater, Dr Xiaohui Zhao
@@ -122,8 +122,10 @@ Make sample table:
 
 ```{r}
 
-sample <-    c("SRR1811706", "SRR1811707", "SRR1811708", "SRR1811709", "SRR1823638", "SRR1823639", "SRR1823640", "SRR1823641", "SRR1823642", "SRR1823643", "SRR1823644")
-condition <- c("YolkSac",    "YolkSac",    "YolkSac",    "YolkSac",    "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta")
+sample <-    c("SRR1811706", "SRR1811707", "SRR1811708", "SRR1811709", "SRR1823638", 
+               "SRR1823639", "SRR1823640", "SRR1823641", "SRR1823642", "SRR1823643", "SRR1823644")
+condition <- c("YolkSac",    "YolkSac",    "YolkSac",    "YolkSac",    "Placenta",   
+               "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta",   "Placenta")
 sample_table <- data.frame(sample, condition)
 sample_table <- dplyr::select(sample_table, sample = sample, condition = condition)
 sample_table <- dplyr::mutate(sample_table, path = dirs)
