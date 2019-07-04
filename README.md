@@ -46,7 +46,7 @@ And downloaded via EBI European Nucleotide Archive (ENA) from
 Gene to transcript table and entrezid (these would normally be downloaded during the analysis, but this is not robust enough for a practical with muultiple people downloading at the same time)
 - [ENST_ENSG_GeneName.GRCm38.kallisto.table](ENST_ENSG_GeneName.GRCm38.kallisto.table)
 - [ensEMBL2id.csv](ensEMBL2id.csv)
-- A Kallisto index for GRCm38 is required e.g. Mus_musculus.GRCm38.cdna.all.idx. See [https://pachterlab.github.io/kallisto/starting.html](https://pachterlab.github.io/kallisto/starting.html) for details how to create/download.
+- A Kallisto index for GRCm38 is required e.g. Mus_musculus.GRCm38.cdna.all.idx. See [https://pachterlab.github.io/kallisto/starting.html](https://pachterlab.github.io/kallisto/starting.html) for details how to create/download. A version used for this course can be downloaded [[here](http://ctr-web.pdn.cam.ac.uk/PlacentalBiologyCourse/)]
 
 #### Sample Files with pre-made QC and alignments ####
 - [SRR1811706_ES610_WT_Yolk_Sac](SRR1811706_ES610_WT_Yolk_Sac)
